@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration date="2019/01/22" author="e.World Technology Ltd.">
+  <project id="{B8F5959D-CB6C-4187-BE43-478B4AED8700}" file="C:\xampp\htdocs\cabang\cabang_prj.pmp" name="cabang_prj" product="PHPMaker" version="13.0" datetime="2019/01/22 23:08:14" languagefolder="phplang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
+    <table id="t0101_cabang" name="t0101_cabang" caption="Cabang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t9901_employees" name="t9901_employees" caption="User" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t9902_userlevels" name="t9902_userlevels" caption="Hak Akses" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t9903_userlevelpermissions" name="t9903_userlevelpermissions" caption="Hak Akses Permission" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+    <table id="t9904_audittrail" name="t9904_audittrail" caption="Catatan Aktifitas" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
+  </project>
+</configuration>
