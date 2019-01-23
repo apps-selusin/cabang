@@ -610,7 +610,13 @@ class ct0101_cabang extends cTable {
 
 		// Cabang
 		$this->Cabang->LinkCustomAttributes = "";
-		$this->Cabang->HrefValue = "";
+		if (!ew_Empty($this->NamaDB->CurrentValue)) {
+			$this->Cabang->HrefValue = "proses.php?db=" . ((!empty($this->NamaDB->ViewValue)) ? ew_RemoveHtml($this->NamaDB->ViewValue) : $this->NamaDB->CurrentValue); // Add prefix/suffix
+			$this->Cabang->LinkAttrs["target"] = ""; // Add target
+			if ($this->Export <> "") $this->Cabang->HrefValue = ew_ConvertFullUrl($this->Cabang->HrefValue);
+		} else {
+			$this->Cabang->HrefValue = "";
+		}
 		$this->Cabang->TooltipValue = "";
 
 		// NamaDB
@@ -675,7 +681,6 @@ class ct0101_cabang extends cTable {
 				$Doc->BeginExportRow();
 				if ($ExportPageType == "view") {
 					if ($this->Cabang->Exportable) $Doc->ExportCaption($this->Cabang);
-					if ($this->NamaDB->Exportable) $Doc->ExportCaption($this->NamaDB);
 				} else {
 					if ($this->id->Exportable) $Doc->ExportCaption($this->id);
 					if ($this->Cabang->Exportable) $Doc->ExportCaption($this->Cabang);
@@ -712,7 +717,6 @@ class ct0101_cabang extends cTable {
 					$Doc->BeginExportRow($RowCnt); // Allow CSS styles if enabled
 					if ($ExportPageType == "view") {
 						if ($this->Cabang->Exportable) $Doc->ExportField($this->Cabang);
-						if ($this->NamaDB->Exportable) $Doc->ExportField($this->NamaDB);
 					} else {
 						if ($this->id->Exportable) $Doc->ExportField($this->id);
 						if ($this->Cabang->Exportable) $Doc->ExportField($this->Cabang);

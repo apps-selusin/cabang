@@ -371,7 +371,6 @@ class ct0101_cabang_list extends ct0101_cabang {
 		// Set up list options
 		$this->SetupListOptions();
 		$this->Cabang->SetVisibility();
-		$this->NamaDB->SetVisibility();
 
 		// Global Page Loading event (in userfn*.php)
 		Page_Loading();
@@ -643,7 +642,6 @@ class ct0101_cabang_list extends ct0101_cabang {
 			$this->CurrentOrder = ew_StripSlashes(@$_GET["order"]);
 			$this->CurrentOrderType = @$_GET["ordertype"];
 			$this->UpdateSort($this->Cabang, $bCtrl); // Cabang
-			$this->UpdateSort($this->NamaDB, $bCtrl); // NamaDB
 			$this->setStartRecordNumber(1); // Reset start position
 		}
 	}
@@ -673,7 +671,6 @@ class ct0101_cabang_list extends ct0101_cabang {
 				$sOrderBy = "";
 				$this->setSessionOrderBy($sOrderBy);
 				$this->Cabang->setSort("");
-				$this->NamaDB->setSort("");
 			}
 
 			// Reset start position
@@ -1188,13 +1185,14 @@ class ct0101_cabang_list extends ct0101_cabang {
 
 			// Cabang
 			$this->Cabang->LinkCustomAttributes = "";
-			$this->Cabang->HrefValue = "";
+			if (!ew_Empty($this->NamaDB->CurrentValue)) {
+				$this->Cabang->HrefValue = "proses.php?db=" . ((!empty($this->NamaDB->ViewValue)) ? ew_RemoveHtml($this->NamaDB->ViewValue) : $this->NamaDB->CurrentValue); // Add prefix/suffix
+				$this->Cabang->LinkAttrs["target"] = ""; // Add target
+				if ($this->Export <> "") $this->Cabang->HrefValue = ew_ConvertFullUrl($this->Cabang->HrefValue);
+			} else {
+				$this->Cabang->HrefValue = "";
+			}
 			$this->Cabang->TooltipValue = "";
-
-			// NamaDB
-			$this->NamaDB->LinkCustomAttributes = "";
-			$this->NamaDB->HrefValue = "";
-			$this->NamaDB->TooltipValue = "";
 		}
 
 		// Call Row Rendered event
@@ -1469,15 +1467,6 @@ $t0101_cabang_list->ListOptions->Render("header", "left");
         </div></div></th>
 	<?php } ?>
 <?php } ?>		
-<?php if ($t0101_cabang->NamaDB->Visible) { // NamaDB ?>
-	<?php if ($t0101_cabang->SortUrl($t0101_cabang->NamaDB) == "") { ?>
-		<th data-name="NamaDB"><div id="elh_t0101_cabang_NamaDB" class="t0101_cabang_NamaDB"><div class="ewTableHeaderCaption"><?php echo $t0101_cabang->NamaDB->FldCaption() ?></div></div></th>
-	<?php } else { ?>
-		<th data-name="NamaDB"><div class="ewPointer" onclick="ew_Sort(event,'<?php echo $t0101_cabang->SortUrl($t0101_cabang->NamaDB) ?>',2);"><div id="elh_t0101_cabang_NamaDB" class="t0101_cabang_NamaDB">
-			<div class="ewTableHeaderBtn"><span class="ewTableHeaderCaption"><?php echo $t0101_cabang->NamaDB->FldCaption() ?></span><span class="ewTableHeaderSort"><?php if ($t0101_cabang->NamaDB->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($t0101_cabang->NamaDB->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span></div>
-        </div></div></th>
-	<?php } ?>
-<?php } ?>		
 <?php
 
 // Render list options (header, right)
@@ -1547,17 +1536,14 @@ $t0101_cabang_list->ListOptions->Render("body", "left", $t0101_cabang_list->RowC
 		<td data-name="Cabang"<?php echo $t0101_cabang->Cabang->CellAttributes() ?>>
 <span id="el<?php echo $t0101_cabang_list->RowCnt ?>_t0101_cabang_Cabang" class="t0101_cabang_Cabang">
 <span<?php echo $t0101_cabang->Cabang->ViewAttributes() ?>>
-<?php echo $t0101_cabang->Cabang->ListViewValue() ?></span>
+<?php if ((!ew_EmptyStr($t0101_cabang->Cabang->ListViewValue())) && $t0101_cabang->Cabang->LinkAttributes() <> "") { ?>
+<a<?php echo $t0101_cabang->Cabang->LinkAttributes() ?>><?php echo $t0101_cabang->Cabang->ListViewValue() ?></a>
+<?php } else { ?>
+<?php echo $t0101_cabang->Cabang->ListViewValue() ?>
+<?php } ?>
+</span>
 </span>
 <a id="<?php echo $t0101_cabang_list->PageObjName . "_row_" . $t0101_cabang_list->RowCnt ?>"></a></td>
-	<?php } ?>
-	<?php if ($t0101_cabang->NamaDB->Visible) { // NamaDB ?>
-		<td data-name="NamaDB"<?php echo $t0101_cabang->NamaDB->CellAttributes() ?>>
-<span id="el<?php echo $t0101_cabang_list->RowCnt ?>_t0101_cabang_NamaDB" class="t0101_cabang_NamaDB">
-<span<?php echo $t0101_cabang->NamaDB->ViewAttributes() ?>>
-<?php echo $t0101_cabang->NamaDB->ListViewValue() ?></span>
-</span>
-</td>
 	<?php } ?>
 <?php
 

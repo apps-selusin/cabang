@@ -340,7 +340,6 @@ class ct0101_cabang_view extends ct0101_cabang {
 		}
 		$this->CurrentAction = (@$_GET["a"] <> "") ? $_GET["a"] : @$_POST["a_list"]; // Set up current action
 		$this->Cabang->SetVisibility();
-		$this->NamaDB->SetVisibility();
 
 		// Global Page Loading event (in userfn*.php)
 		Page_Loading();
@@ -641,13 +640,14 @@ class ct0101_cabang_view extends ct0101_cabang {
 
 			// Cabang
 			$this->Cabang->LinkCustomAttributes = "";
-			$this->Cabang->HrefValue = "";
+			if (!ew_Empty($this->NamaDB->CurrentValue)) {
+				$this->Cabang->HrefValue = "proses.php?db=" . ((!empty($this->NamaDB->ViewValue)) ? ew_RemoveHtml($this->NamaDB->ViewValue) : $this->NamaDB->CurrentValue); // Add prefix/suffix
+				$this->Cabang->LinkAttrs["target"] = ""; // Add target
+				if ($this->Export <> "") $this->Cabang->HrefValue = ew_ConvertFullUrl($this->Cabang->HrefValue);
+			} else {
+				$this->Cabang->HrefValue = "";
+			}
 			$this->Cabang->TooltipValue = "";
-
-			// NamaDB
-			$this->NamaDB->LinkCustomAttributes = "";
-			$this->NamaDB->HrefValue = "";
-			$this->NamaDB->TooltipValue = "";
 		}
 
 		// Call Row Rendered event
@@ -849,18 +849,12 @@ $t0101_cabang_view->ShowMessage();
 		<td data-name="Cabang"<?php echo $t0101_cabang->Cabang->CellAttributes() ?>>
 <span id="el_t0101_cabang_Cabang">
 <span<?php echo $t0101_cabang->Cabang->ViewAttributes() ?>>
-<?php echo $t0101_cabang->Cabang->ViewValue ?></span>
-</span>
-</td>
-	</tr>
+<?php if ((!ew_EmptyStr($t0101_cabang->Cabang->ViewValue)) && $t0101_cabang->Cabang->LinkAttributes() <> "") { ?>
+<a<?php echo $t0101_cabang->Cabang->LinkAttributes() ?>><?php echo $t0101_cabang->Cabang->ViewValue ?></a>
+<?php } else { ?>
+<?php echo $t0101_cabang->Cabang->ViewValue ?>
 <?php } ?>
-<?php if ($t0101_cabang->NamaDB->Visible) { // NamaDB ?>
-	<tr id="r_NamaDB">
-		<td><span id="elh_t0101_cabang_NamaDB"><?php echo $t0101_cabang->NamaDB->FldCaption() ?></span></td>
-		<td data-name="NamaDB"<?php echo $t0101_cabang->NamaDB->CellAttributes() ?>>
-<span id="el_t0101_cabang_NamaDB">
-<span<?php echo $t0101_cabang->NamaDB->ViewAttributes() ?>>
-<?php echo $t0101_cabang->NamaDB->ViewValue ?></span>
+</span>
 </span>
 </td>
 	</tr>

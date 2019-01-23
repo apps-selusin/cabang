@@ -586,7 +586,13 @@ class ct0101_cabang_edit extends ct0101_cabang {
 
 			// Cabang
 			$this->Cabang->LinkCustomAttributes = "";
-			$this->Cabang->HrefValue = "";
+			if (!ew_Empty($this->NamaDB->CurrentValue)) {
+				$this->Cabang->HrefValue = "proses.php?db=" . ((!empty($this->NamaDB->ViewValue)) ? ew_RemoveHtml($this->NamaDB->ViewValue) : $this->NamaDB->CurrentValue); // Add prefix/suffix
+				$this->Cabang->LinkAttrs["target"] = ""; // Add target
+				if ($this->Export <> "") $this->Cabang->HrefValue = ew_ConvertFullUrl($this->Cabang->HrefValue);
+			} else {
+				$this->Cabang->HrefValue = "";
+			}
 			$this->Cabang->TooltipValue = "";
 
 			// NamaDB
@@ -611,7 +617,13 @@ class ct0101_cabang_edit extends ct0101_cabang {
 			// Cabang
 
 			$this->Cabang->LinkCustomAttributes = "";
-			$this->Cabang->HrefValue = "";
+			if (!ew_Empty($this->NamaDB->CurrentValue)) {
+				$this->Cabang->HrefValue = "proses.php?db=" . ((!empty($this->NamaDB->EditValue)) ? ew_RemoveHtml($this->NamaDB->EditValue) : $this->NamaDB->CurrentValue); // Add prefix/suffix
+				$this->Cabang->LinkAttrs["target"] = ""; // Add target
+				if ($this->Export <> "") $this->Cabang->HrefValue = ew_ConvertFullUrl($this->Cabang->HrefValue);
+			} else {
+				$this->Cabang->HrefValue = "";
+			}
 
 			// NamaDB
 			$this->NamaDB->LinkCustomAttributes = "";

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2019/1/22" version="13.0.0" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2019/1/23" version="13.0.0" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -724,10 +724,10 @@
       <field id="action">
         <phrase id="fldcaption" value="action" />
       </field>
-      <field id="table">
+      <field id="_table">
         <phrase id="fldcaption" value="table" />
       </field>
-      <field id="field">
+      <field id="_field">
         <phrase id="fldcaption" value="field" />
       </field>
       <field id="keyvalue">

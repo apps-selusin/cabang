@@ -283,7 +283,6 @@ class ct0101_cabang_delete extends ct0101_cabang {
 		}
 		$this->CurrentAction = (@$_GET["a"] <> "") ? $_GET["a"] : @$_POST["a_list"]; // Set up current action
 		$this->Cabang->SetVisibility();
-		$this->NamaDB->SetVisibility();
 
 		// Global Page Loading event (in userfn*.php)
 		Page_Loading();
@@ -502,13 +501,14 @@ class ct0101_cabang_delete extends ct0101_cabang {
 
 			// Cabang
 			$this->Cabang->LinkCustomAttributes = "";
-			$this->Cabang->HrefValue = "";
+			if (!ew_Empty($this->NamaDB->CurrentValue)) {
+				$this->Cabang->HrefValue = "proses.php?db=" . ((!empty($this->NamaDB->ViewValue)) ? ew_RemoveHtml($this->NamaDB->ViewValue) : $this->NamaDB->CurrentValue); // Add prefix/suffix
+				$this->Cabang->LinkAttrs["target"] = ""; // Add target
+				if ($this->Export <> "") $this->Cabang->HrefValue = ew_ConvertFullUrl($this->Cabang->HrefValue);
+			} else {
+				$this->Cabang->HrefValue = "";
+			}
 			$this->Cabang->TooltipValue = "";
-
-			// NamaDB
-			$this->NamaDB->LinkCustomAttributes = "";
-			$this->NamaDB->HrefValue = "";
-			$this->NamaDB->TooltipValue = "";
 		}
 
 		// Call Row Rendered event
@@ -765,9 +765,6 @@ $t0101_cabang_delete->ShowMessage();
 <?php if ($t0101_cabang->Cabang->Visible) { // Cabang ?>
 		<th><span id="elh_t0101_cabang_Cabang" class="t0101_cabang_Cabang"><?php echo $t0101_cabang->Cabang->FldCaption() ?></span></th>
 <?php } ?>
-<?php if ($t0101_cabang->NamaDB->Visible) { // NamaDB ?>
-		<th><span id="elh_t0101_cabang_NamaDB" class="t0101_cabang_NamaDB"><?php echo $t0101_cabang->NamaDB->FldCaption() ?></span></th>
-<?php } ?>
 	</tr>
 	</thead>
 	<tbody>
@@ -793,15 +790,12 @@ while (!$t0101_cabang_delete->Recordset->EOF) {
 		<td<?php echo $t0101_cabang->Cabang->CellAttributes() ?>>
 <span id="el<?php echo $t0101_cabang_delete->RowCnt ?>_t0101_cabang_Cabang" class="t0101_cabang_Cabang">
 <span<?php echo $t0101_cabang->Cabang->ViewAttributes() ?>>
-<?php echo $t0101_cabang->Cabang->ListViewValue() ?></span>
-</span>
-</td>
+<?php if ((!ew_EmptyStr($t0101_cabang->Cabang->ListViewValue())) && $t0101_cabang->Cabang->LinkAttributes() <> "") { ?>
+<a<?php echo $t0101_cabang->Cabang->LinkAttributes() ?>><?php echo $t0101_cabang->Cabang->ListViewValue() ?></a>
+<?php } else { ?>
+<?php echo $t0101_cabang->Cabang->ListViewValue() ?>
 <?php } ?>
-<?php if ($t0101_cabang->NamaDB->Visible) { // NamaDB ?>
-		<td<?php echo $t0101_cabang->NamaDB->CellAttributes() ?>>
-<span id="el<?php echo $t0101_cabang_delete->RowCnt ?>_t0101_cabang_NamaDB" class="t0101_cabang_NamaDB">
-<span<?php echo $t0101_cabang->NamaDB->ViewAttributes() ?>>
-<?php echo $t0101_cabang->NamaDB->ListViewValue() ?></span>
+</span>
 </span>
 </td>
 <?php } ?>
